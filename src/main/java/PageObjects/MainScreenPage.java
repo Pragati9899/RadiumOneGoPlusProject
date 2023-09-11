@@ -1,0 +1,95 @@
+package PageObjects;
+
+import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class MainScreenPage {
+    //android.widget.TextView[text()='Received Today']
+
+
+    public AndroidDriver driver;
+    public MainScreenPage(AndroidDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver,this);
+    }
+
+    //-------------Name of user-------------------
+    @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[0]")
+    WebElement nameOfUser;
+    public Boolean checkNameOfUser(){
+        Boolean name =nameOfUser.isDisplayed();
+        return name;
+    }
+
+    //-----------------Name of device-------------
+    @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[1]")
+    WebElement nameOfDevice;
+    public Boolean checkNameOfDevice(){
+        Boolean deviceName=nameOfDevice.isDisplayed();
+        return deviceName;
+    }
+
+    //----------------Received Amount----------------
+    @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[2]")
+    WebElement receivedAmount;
+    public Boolean checkReceivedAmount(){
+        Boolean totalAmount=receivedAmount.isDisplayed();
+        return totalAmount;
+    }
+
+    //--------------------Compared percentage to yesterday-------
+    @FindBy(xpath = "(//android.view.ViewGroup)[3](//android.widget.TextView)[0]")
+    WebElement comparedPerc;
+    public Boolean checkComparedPerc(){
+        Boolean perc=comparedPerc.isDisplayed();
+        return perc;
+    }
+
+    //----------------Menu buttons----------------
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Receive Money\"]")
+    WebElement receiveMoneyBtn;
+    public void clickReceiveMoneyBtn(){
+        receiveMoneyBtn.click();
+    }
+
+    @FindBy(xpath = "  //android.view.ViewGroup[@content-desc=\"Settings\"]")
+    WebElement settingsBtn;
+    public void clickSettingsBtn(){
+        settingsBtn.click();
+    }
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"History\"]")
+    WebElement historyBtn;
+    public void clickHistoryBtn(){
+        historyBtn.click();
+    }
+
+    //------------------------Refresh button----
+    @FindBy(xpath = "(//android.view.ViewGroup)[1]//com.horcrux.svg.PathView")
+    WebElement refreshBtn;
+    public void clickRefreshBtn(){
+        refreshBtn.click();
+    }
+
+    //------------------Help Center----------
+    @FindBy(xpath = "(//android.view.ViewGroup)[3]//com.horcrux.svg.PathView")
+    WebElement helpCenterBtn;
+    public void clickHelpCenterBtn(){
+        helpCenterBtn.click();
+    }
+
+    //-------------kiosk mode--------------------
+     @FindBy(xpath = "(//android.view.ViewGroup)[2]//com.horcrux.svg.PathView")
+     WebElement kioskBtn;
+     public void clickKioskBtn(){
+         kioskBtn.click();
+     }
+
+     //-----------------Logout btn----------------
+     @FindBy(xpath = "//android.widget.TextView[@text=\"Logout\"]")
+     WebElement logoutBtn;
+     public void clickLogoutBtn(){
+         logoutBtn.click();
+     }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="RadiumOneGoPlus">
+    <test thread-count="5" name="RadiumOneGoPlus">
+        <classes>
+           <class name="Testcases.Sign_inTest"></class>
+            <class name="Testcases.ReceiveMoney_Test"></class>
+            <class name="Testcases.Histroy_Test"></class>
+            <class name="Testcases.ManageUsers_Test"></class>
+            <class name="Testcases.ManageDevice_Test"></class>
+            <class name="Testcases.Subscription_Test"></class>
+
+        </classes>
+    </test>
+</suite>
