@@ -16,7 +16,7 @@ public class MainScreenPage {
     }
 
     //-------------Name of user-------------------
-    @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[0]")
+    @FindBy(xpath = "(//android.widget.TextView)[1]")
     WebElement nameOfUser;
     public Boolean checkNameOfUser(){
         Boolean name =nameOfUser.isDisplayed();
@@ -66,7 +66,7 @@ public class MainScreenPage {
     }
 
     //------------------------Refresh button----
-    @FindBy(xpath = "(//android.view.ViewGroup)[1]//com.horcrux.svg.PathView")
+    @FindBy(xpath = "(//com.horcrux.svg.PathView)[2]")
     WebElement refreshBtn;
     public void clickRefreshBtn(){
         refreshBtn.click();
@@ -92,4 +92,15 @@ public class MainScreenPage {
      public void clickLogoutBtn(){
          logoutBtn.click();
      }
+
+     //---------Txn table-------------
+    @FindBy(xpath = "(//android.widget.TextView)[9]")
+    WebElement amount;
+
+     public String readAmount(){
+         String result = amount.getAttribute("text");
+         return result;
+     }
+
+
 }

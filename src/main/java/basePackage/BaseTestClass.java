@@ -4,9 +4,12 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +24,9 @@ public class BaseTestClass {
     public UiAutomator2Options setDesiredCapability() throws IOException {
         rb = ResourceBundle.getBundle("config");
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setUdid("10BD611L2G000CU");
+       // options.setUdid("emulator-5554");
+       options.setUdid("10BD611L2G000CU");
+       // options.setUdid("22e4fdbb");
         options.setCapability("platformName", "Android");
         options.setCapability("appium:platformVersion", "13.0");
         options.setCapability("appium:appPackage", "io.radiumone.goplus");
@@ -32,8 +37,9 @@ public class BaseTestClass {
     public AndroidDriver initialise(){
         try {
             this.driver = new AndroidDriver(new URL("http://127.0.0.1:4723"),setDesiredCapability());
+            Thread.sleep(8000);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -46,6 +52,7 @@ public class BaseTestClass {
         FileUtils.copyFile(source, destinationFile);
         return destinationFile;
     }
+
 
 }
 

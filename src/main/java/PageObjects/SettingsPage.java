@@ -32,11 +32,21 @@ public class SettingsPage {  public AndroidDriver driver;
     //------------------- General settings------------
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"General\"]")
     WebElement generalSetting;
-    @FindBy(xpath = "(//android.widget.Switch)[2]")
+    @FindBy(xpath = "(//android.widget.Switch)[1]")
     WebElement referenceNoToggleBtn;
     public void setReferenceNoToggleBtn(){
     generalSetting.click();
     referenceNoToggleBtn.click();
+        backBtn.click();
+        backBtn.click();
+    }
+    @FindBy(xpath = "(//android.widget.Switch)[1]")
+    WebElement tipAmountToggleBtn;
+    public void setTipAmountToggleBtn(){
+        generalSetting.click();
+        tipAmountToggleBtn.click();
+        backBtn.click();
+        backBtn.click();
     }
 
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Notifications\"]")
@@ -137,6 +147,7 @@ public class SettingsPage {  public AndroidDriver driver;
     WebElement cancel_Btn;
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Purchase\"]/android.view.ViewGroup")
     WebElement purchaseBtn;
+
              //-------Add subscription-----------
     public double addSubscription(String devices, String users){
         subscriptionsSetting.click();
@@ -177,7 +188,7 @@ public class SettingsPage {  public AndroidDriver driver;
 
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Security\"]")
     WebElement securitySetting;
-    @FindBy(xpath = "//com.horcrux.svg.PathView")
+    @FindBy(xpath = "//com.horcrux.svg.SvgView")
     WebElement backBtn;
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Voice Alert, Make a voice announcement when money is received.\"]\n")
     WebElement voiceAlert;

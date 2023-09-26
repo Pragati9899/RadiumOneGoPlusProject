@@ -19,7 +19,7 @@ public class Sign_inTest extends BaseTestClass {
         this.driver=initialise();
     }
 
-    @Test
+    @Test   //Running
     public void TC_001_SignInTest_validNumber() throws MalformedURLException, InterruptedException {
        //sign in page object
         Sign_inPage signInPage = new Sign_inPage(driver);
@@ -29,7 +29,9 @@ public class Sign_inTest extends BaseTestClass {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
                 Thread.sleep(6000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
             } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
                 signInPage.AcceptThePop_up2();
@@ -44,8 +46,7 @@ public class Sign_inTest extends BaseTestClass {
         //enter mobile number
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(3000);
-
+        Thread.sleep(10000);
 
        //enter verification code
         String[] a = {"1","2","3","4","5","6"};
@@ -66,7 +67,9 @@ public class Sign_inTest extends BaseTestClass {
 
         Assert.assertEquals(nameOfUser,true);*/
     }
-    @Test
+
+
+    @Test //-------Running----
     public void TC_002_SignInTest_InvalidNumber() throws MalformedURLException, InterruptedException {
         //sign in page object
         Sign_inPage signInPage = new Sign_inPage(driver);
@@ -75,39 +78,11 @@ public class Sign_inTest extends BaseTestClass {
         //check if permission dialog are displayed or not
         if(signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
+                Thread.sleep(6000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
-                signInPage.AcceptThePop_up1();
-            } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
-                signInPage.AcceptThePop_up2();
-                signInPage.AcceptThePop_up2();
-                signInPage.AcceptThePop_up2();
-            } else if (rb.getString("PermissionDialogue").equals("Don’t allow")) {
-                signInPage.AcceptThePop_up3();
-                signInPage.AcceptThePop_up3();
-                signInPage.AcceptThePop_up3();
-            }
-        }
-        //enter mobile number
-        signInPage.setEnterMobileNoField(rb.getString("MobileNumber2"));
-        signInPage.clickSignInBtn();
-        Thread.sleep(3000);
-
-        Boolean result=signInPage.checkErrorMessageDisplayedForInvalidNumber();
-        //----Assertion----
-        Assert.assertEquals(result,true);
-    }
-    @Test
-    public void TC_003_SignInTest_WrongCode() throws MalformedURLException, InterruptedException {
-        //sign in page object
-        Sign_inPage signInPage = new Sign_inPage(driver);
-        Thread.sleep(3000);
-
-        //check if permission diauloge are displayed or not
-        if(signInPage.permissionpop_upIsDisplayed()) {
-            if (rb.getString("PermissionDialogue").equals("While using the app")) {
-                signInPage.AcceptThePop_up1();
-                signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
             } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
                 signInPage.AcceptThePop_up2();
@@ -123,6 +98,40 @@ public class Sign_inTest extends BaseTestClass {
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber1"));
         signInPage.clickSignInBtn();
         Thread.sleep(3000);
+
+        Boolean result=signInPage.checkErrorMessageDisplayedForInvalidNumber();
+        //----Assertion----
+        Assert.assertEquals(result,true);
+    }
+    @Test //-------Running----
+    public void TC_003_SignInTest_WrongCode() throws MalformedURLException, InterruptedException {
+        //sign in page object
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        Thread.sleep(3000);
+
+        //check if permission diauloge are displayed or not
+        if(signInPage.permissionpop_upIsDisplayed()) {
+            if (rb.getString("PermissionDialogue").equals("While using the app")) {
+                Thread.sleep(6000);
+                signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
+                signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
+                signInPage.AcceptThePop_up1();
+            } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
+                signInPage.AcceptThePop_up2();
+                signInPage.AcceptThePop_up2();
+                signInPage.AcceptThePop_up2();
+            } else if (rb.getString("PermissionDialogue").equals("Don’t allow")) {
+                signInPage.AcceptThePop_up3();
+                signInPage.AcceptThePop_up3();
+                signInPage.AcceptThePop_up3();
+            }
+        }
+        //enter mobile number
+        signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
+        signInPage.clickSignInBtn();
+        Thread.sleep(10000);
         //enter verification code
         String[] a = {"9","2","3","4","5","6"};
         signInPage.setVerificationCode(a);
@@ -133,7 +142,7 @@ public class Sign_inTest extends BaseTestClass {
         Assert.assertEquals(result,true);
 
     }
-    @Test
+    @Test//-------Running----
     public void TC_004_SignInTest_ResendCode() throws MalformedURLException, InterruptedException {
         //sign in page object
         Sign_inPage signInPage = new Sign_inPage(driver);
@@ -142,8 +151,11 @@ public class Sign_inTest extends BaseTestClass {
         //check if permission diauloge are displayed or not
         if(signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
+                Thread.sleep(6000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
             } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
                 signInPage.AcceptThePop_up2();
@@ -156,12 +168,13 @@ public class Sign_inTest extends BaseTestClass {
             }
         }
         //enter mobile number
-        signInPage.setEnterMobileNoField(rb.getString("MobileNumber1"));
+        signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(3000);
+        Thread.sleep(10000);
         //enter verification code
+        Thread.sleep(3000);
         signInPage.clickResendBtn();
-        String[] a = {"9","2","3","4","5","6"};
+        String[] a = {"1","2","3","4","5","6"};
         signInPage.setVerificationCode(a);
         signInPage.clickSubmitBtn();
 
@@ -178,8 +191,11 @@ public class Sign_inTest extends BaseTestClass {
         //check if permission diauloge are displayed or not
         if(signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
+                Thread.sleep(6000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
             } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
                 signInPage.AcceptThePop_up2();
@@ -194,7 +210,7 @@ public class Sign_inTest extends BaseTestClass {
         //enter mobile number
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         //enter verification code
         String[] a = {"1","2","3","4","5","6"};
@@ -202,17 +218,24 @@ public class Sign_inTest extends BaseTestClass {
         signInPage.clickSubmitBtn();
 
         //enter security settings
+        Thread.sleep(5000);
         signInPage.setEnterPasswordField(rb.getString("Password"));
-        signInPage.setReEnterPasswordField(rb.getString("Password1"));
-        signInPage.clickSubmitBtn();
+        signInPage.setReEnterPasswordField(rb.getString("Password"));
+        signInPage.clickSubmit_Btn();
 
+        // Notification permission box
+        if(rb.getString("NoteficationPerm").equals("Allow")) {
+            signInPage.allowNotificationPopup();
+        }else{
+            signInPage.denyNotificationPopup();
+        }
         //----Assertion----
         MainScreenPage mainScreen = new MainScreenPage(driver);
         Boolean nameOfUser=mainScreen.checkNameOfUser();
         Assert.assertEquals(nameOfUser,true);
 
     }
-    @Test
+    @Test //-----Running-----
     public void TC_006_SignInTest_securityPasswordUnMatched() throws MalformedURLException, InterruptedException {
         //sign in page object
         Sign_inPage signInPage = new Sign_inPage(driver);
@@ -221,8 +244,11 @@ public class Sign_inTest extends BaseTestClass {
         //check if permission diauloge are displayed or not
         if(signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
+                Thread.sleep(6000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
+                Thread.sleep(4000);
                 signInPage.AcceptThePop_up1();
             } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
                 signInPage.AcceptThePop_up2();
@@ -237,8 +263,7 @@ public class Sign_inTest extends BaseTestClass {
         //enter mobile number
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(3000);
-
+        Thread.sleep(10000);
 
         //enter verification code
         String[] a = {"1","2","3","4","5","6"};
@@ -249,7 +274,7 @@ public class Sign_inTest extends BaseTestClass {
         //enter security settings
         signInPage.setEnterPasswordField(rb.getString("Password"));
         signInPage.setReEnterPasswordField(rb.getString("Password1"));
-        signInPage.clickSubmitBtn();
+        signInPage.clickSubmit_Btn();
 
 
         //----Assertion----
@@ -258,7 +283,7 @@ public class Sign_inTest extends BaseTestClass {
     }
     @AfterMethod
     public void teardown(){
-       // driver.quit();
+       driver.quit();
     }
 }
 

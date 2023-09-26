@@ -1,4 +1,4 @@
-package Testcases;
+package randomPackage;
 
 
 import io.restassured.path.json.JsonPath;
@@ -91,20 +91,64 @@ public class ApiTesting {
             RequestSpecification reqSpec = reqBuilder.build();*/
 
             baseURI="https://api.g-sandbox.radiumone.io/paynow";
-            Response validatableResponse = RestAssured.given().header("authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTI3NDc3NCwiZXhwIjoxNjk1ODc5NTc0LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.TmdhkI2UW0V-lVAz00eqLSvJg06VekognqKT5DAb-78")
+            Response validatableResponse = RestAssured.given().header("authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
                     .accept(ContentType.JSON)
                     .header("Accept-Encoding","gzip, deflate, br")
                     .queryParam("qr_data", qr_data)
                     .when()
                     .post("/notify/mockup").then()
+                    .log().all()
                     .contentType(ContentType.JSON).extract().response();
 
             String responseBody = validatableResponse.getBody().asString();
             System.out.println(responseBody);
-            JsonPath js = new JsonPath(responseBody);
+          /*  JsonPath js = new JsonPath(responseBody);
             String asset = js.getString("x.message");
-            System.out.println(asset);
+            System.out.println(asset);*/
 
         }
-    }
+    //        try {
+//            System.setProperty("javax.net.ssl.trustStore", "C:/.keystore");
+//            System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+//
+//            // Create a URL object with the API endpoint
+//            URL url = new URL("https://api.g-sandbox.radiumone.io/paynow/notify/mockup");
+//
+//            // Open a connection to the URL
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            String encoding3 = Base64.getEncoder().encodeToString(
+//                    content.getBytes(StandardCharsets.UTF_8));
+//            // Set the request method (GET, POST, etc.)
+//            connection.setRequestMethod("POST");
+////            connection.setRequestProperty("Accept","*/*");
+//            connection.setRequestProperty("qr_data", encoding3);
+//            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs");
+//            connection.setRequestProperty(" Accept-Encoding","gzip, deflate, br");
+//            connection.setRequestProperty("Connection","keep-alive");
+//            // Get the response code
+//            int responseCode = connection.getResponseCode();
+//            System.out.println("Response Code: " + responseCode);
+//            String responseMess = connection.getResponseMessage();
+//            System.out.println("Response: " + responseMess);
+//            // Read the response data
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            String inputLine;
+//            StringBuilder response = new StringBuilder();
+//
+//            while ((inputLine = reader.readLine()) != null) {
+//                response.append(inputLine);
+//            }
+//
+//            reader.close();
+//
+//            // Print the response data
+//            System.out.println("Response Data:\n" + response.toString());
+//
+//            // Close the connection
+//            connection.disconnect();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+}
 

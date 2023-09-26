@@ -1,4 +1,4 @@
-package PageObjects;
+package Utilities;
 
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.nio.file.Watchable;
+import static actiondriver.ActionDriver.JSClick;
 
 public class ReceiveMoneyPage {
     public AndroidDriver driver;
@@ -14,11 +14,11 @@ public class ReceiveMoneyPage {
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(xpath = "//android.view.ViewGroup[1]/android.widget.EditText")
+    @FindBy(xpath = "(//android.widget.EditText)[1]")
     WebElement amountField;
-    @FindBy(xpath = "//android.view.ViewGroup[3]/android.widget.EditText")
+    @FindBy(xpath = "(//android.widget.EditText)[2]")
     WebElement tipField;
-    @FindBy(xpath = "//android.view.ViewGroup[5]/android.widget.EditText")
+    @FindBy(xpath = "(//android.widget.EditText)[3]")
     WebElement referenceNumber;
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Next\"]")
     WebElement nextBtn;
@@ -37,19 +37,23 @@ public class ReceiveMoneyPage {
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Send\"]")
     WebElement sendBtn;
 
-    public void receiveMoneyFlow(String amount,String tip,String refNo){
+    public String receiveMoneyFlow(String amount, String tip, String refNo) throws InterruptedException {
+        amountField.clear();
         amountField.sendKeys(amount);
+        tipField.clear();
         tipField.sendKeys(tip);
         referenceNumber.sendKeys(refNo);
         nextBtn.click();
-        sendBtn.click();
-        done_Btn.click();
-
+//        Thread.sleep(5000);
+        return amount;
     }
    public void enterAmount(String amount){
-        amountField.sendKeys(amount);
+       amountField.clear();
+
+       amountField.sendKeys(amount);
    }
    public void enterTip(String tip){
+        tipField.clear();
         tipField.sendKeys(tip);
    }
    public void enterReferenceNumber(String refNo){
