@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,87 +23,79 @@ import java.util.List;
 import static Utilities.Utils.decodeQRCode;
 import static io.restassured.RestAssured.baseURI;
 
-public class ReceiveMoney_Test extends BaseTestClass   {
+public class ReceiveMoney_Test extends BaseTestClass {
     // Assertions are not added in testcases
     //need to add locators of latest txn table to add assertion
     Sign_inPage signInPage;
     public AndroidDriver driver;
-    @BeforeMethod
-    public void initialiseTest(){
-        this.driver=initialise();
+
+    @BeforeClass
+    public void initialiseTest() {
+        this.driver = initialise();
     }
 
-
-   @BeforeMethod(dependsOnMethods = "initialiseTest()")
+    @BeforeClass(dependsOnMethods = "initialiseTest()")
     public void login() throws InterruptedException {
         //sign in page object
         Sign_inPage signInPage = new Sign_inPage(driver);
         Thread.sleep(3000);
-//       JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        //check if permission diauloge are displayed or not
-        if(signInPage.permissionpop_upIsDisplayed()) {
-            if (rb.getString("PermissionDialogue").equals("While using the app")) {
-                Thread.sleep(4000);
-                signInPage.AcceptThePop_up1();
-                Thread.sleep(2000);
-                signInPage.AcceptThePop_up1();
-                Thread.sleep(2000);
-                signInPage.AcceptThePop_up1();
-            } else if (rb.getString("PermissionDialogue").equals("Only this time")) {
-                signInPage.AcceptThePop_up2();
-                signInPage.AcceptThePop_up2();
-                signInPage.AcceptThePop_up2();
-            } else if (rb.getString("PermissionDialogue").equals("Don’t allow")) {
-                signInPage.AcceptThePop_up3();
-                signInPage.AcceptThePop_up3();
-                signInPage.AcceptThePop_up3();
-            }
-        }
+
         //enter mobile number
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(6000);
+        Thread.sleep(15000);
 
         //enter verification code
-        String[] a = {"1","2","3","4","5","6"};
+        String[] a = {"1", "2", "3", "4", "5", "6"};
         signInPage.setVerificationCode(a);
-        Thread.sleep(2000);
-        signInPage.clickSubmit_Btn();
-        Thread.sleep(20000);
+        Thread.sleep(10000);
+       // signInPage.clickSubmit_Btn();
+
 
         //enter security settings
         signInPage.setEnterPasswordField(rb.getString("Password"));
         signInPage.setReEnterPasswordField(rb.getString("Password"));
-        signInPage.clickSubmit_Btn();
-       Thread.sleep(3000);
-//       List<String> asyncStorageKeys = (List<String>) jsExecutor.executeScript("return await AsyncStorage.getItem('token');");
+        signInPage.clickSubmitBtn();
+        Thread.sleep(10000);
+
 
         // Notification permission box
-        if(rb.getString("NotificationPerm").equals("Allow")) {
+        if (rb.getString("NotificationPerm").equals("Allow")) {
             signInPage.allowNotificationPopup();
-        }else{
+        } else {
             signInPage.denyNotificationPopup();
         }
-//       List<String> asyncStorageKeys = (List<String>) jsExecutor.executeScript("return Object.keys(window.asyncStorage);");
 
-//       for (String key : asyncStorageKeys) {
-//           Object value = jsExecutor.executeScript(
-//                   "return window.asyncStorage.getItem(arguments[0]);",
-//                   key
-//           );
-//
-//           // Process or store the key-value pair as needed
-//           System.out.println("Key: " + key + ", Value: " + value);
-//       }
 
-   }
+    }
 
     @Test(priority = 1)
-    public void TC_001_ReceiveMoney_WithReferenceNumber() throws InterruptedException, IOException, NotFoundException {
+    public void TC_001_ReceiveMoney_WithReferenceNumberAndTip() throws InterruptedException, IOException, NotFoundException {
 
         signInPage = new Sign_inPage(driver);
         MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
 
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
+        //---------Click setting button----------
+        mainScreenPage.clickSettingsBtn();
+        //----enter security password--------
+        signInPage.inputSecurityPassword(rb.getString("Password"));
+        signInPage.clickContinueBtn();
+        //------------enable Reference number and tip----------
+        settingsPage.clickGeneralSetting();
+        Thread.sleep(3000);
+        if (!settingsPage.verifyRefNoToggleBtnEnabled()) {
+            settingsPage.setReferenceNoToggleBtn();
+        }
+        Thread.sleep(3000);
+        if (!settingsPage.verifyTipToggleBtnEnabled()) {
+            settingsPage.setTipAmountToggleBtn();
+        }
+        Thread.sleep(6000);
+        driver.navigate().back();
+        driver.navigate().back();
         //------Complete flow of receive money-----------
         ReceiveMoneyPage receiveMoneyPage = new ReceiveMoneyPage(driver);
         Thread.sleep(6000);
@@ -113,23 +106,23 @@ public class ReceiveMoney_Test extends BaseTestClass   {
         Thread.sleep(20000);
 
         //---------Read QR code--------------
-        File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot.png");
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot1.png");
         FileUtils.copyFile(screenshotFile, destinationFile);
-        Utils util=new Utils();
+        Utils util = new Utils();
         Thread.sleep(6000);
-        WebElement qrCode=driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
-        util.generateImage(qrCode,destinationFile);
+        WebElement qrCode = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        util.generateImage(qrCode, destinationFile);
         WebElement qrCodeElement = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
         File screenshot = driver.getScreenshotAs(OutputType.FILE);
 
         String content = decodeQRCode(util.generateImage(qrCodeElement, screenshot));
         System.out.println(content);
+        //---------------scan QR code------------
         try {
             baseURI = "https://api.g-sandbox.radiumone.io/paynow";
             Response validatableResponse = RestAssured.given().header("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
                     .accept(ContentType.JSON)
-                    .header("Accept-Encoding", "gzip, deflate, br")
                     .queryParam("qr_data", content)
                     .when()
                     .post("/notify/mockup").then()
@@ -140,110 +133,222 @@ public class ReceiveMoney_Test extends BaseTestClass   {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//-------Refresh Button------------------
-        receiveMoneyPage.clickDone_btn();
+        receiveMoneyPage.readPopupAmount();
         Thread.sleep(3000);
-            mainScreenPage.clickRefreshBtn();
-            String result = mainScreenPage.readAmount();
-            Assert.assertEquals(result, "+" + " $ " + rb.getString("amount"));
 
-        }
+        receiveMoneyPage.clickDone_btn();
+        Thread.sleep(10000);
+
+        //-----------   Assertion ------------------
+        mainScreenPage.clickRefreshBtn();
+        String result = mainScreenPage.readAmount();
+        Assert.assertEquals(result, "+" + " $ " + String.valueOf((Double.parseDouble(rb.getString("amount")) + Double.parseDouble(rb.getString("tip")))) + "0");
+    }
 
 
-     @Test(priority = 2)
+    @Test(priority = 2)
     public void TC_002_ReceiveMoney_WithoutReferenceNumber() throws InterruptedException, IOException, NotFoundException {
-         signInPage= new Sign_inPage(driver);
-         MainScreenPage mainScreenPage= new MainScreenPage(driver);
-      SettingsPage settingsPage = new SettingsPage(driver);
+        signInPage = new Sign_inPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
+        //---------Click setting button----------
+        mainScreenPage.clickSettingsBtn();
+        //----enter security password--------
+        signInPage.inputSecurityPassword(rb.getString("Password"));
+        signInPage.clickContinueBtn();
+        //------------Disable Reference number----------
+        settingsPage.clickGeneralSetting();
         settingsPage.setReferenceNoToggleBtn();
-
+        settingsPage.clickBackBtn();
+        settingsPage.clickBackBtn();
         //------Complete flow of receive money-----------
-         mainScreenPage.clickReceiveMoneyBtn();
-        ReceiveMoneyPage receiveMoneyPage=new ReceiveMoneyPage(driver);
+        mainScreenPage.clickReceiveMoneyBtn();
+        ReceiveMoneyPage receiveMoneyPage = new ReceiveMoneyPage(driver);
         receiveMoneyPage.enterAmount(rb.getString("amount"));
         receiveMoneyPage.enterTip(rb.getString("tip"));
-        receiveMoneyPage.enterAmount(rb.getString("refNo"));
         receiveMoneyPage.clickNextBtn();
+        Thread.sleep(30000);
+
+        //---------Read QR code--------------
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot2.png");
+        FileUtils.copyFile(screenshotFile, destinationFile);
+        Utils util = new Utils();
+        Thread.sleep(6000);
+        WebElement qrCode = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        util.generateImage(qrCode, destinationFile);
+        WebElement qrCodeElement = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        File screenshot = driver.getScreenshotAs(OutputType.FILE);
+
+        String content = decodeQRCode(util.generateImage(qrCodeElement, screenshot));
+        System.out.println(content);
+
+        //---------------scan QR code------------
+        try {
+            baseURI = "https://api.g-sandbox.radiumone.io/paynow";
+            Response validatableResponse = RestAssured.given().header("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
+                    .accept(ContentType.JSON)
+                    .queryParam("qr_data", content)
+                    .when()
+                    .post("/notify/mockup").then()
+                    .log().all()
+                    .contentType(ContentType.JSON).extract().response();
+            String responseBody = validatableResponse.getBody().asString();
+            System.out.println(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        receiveMoneyPage.readPopupAmount();
+        Thread.sleep(3000);
         receiveMoneyPage.clickDone_btn();
-         Thread.sleep(30000);
+        Thread.sleep(3000);
 
-         File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-         File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot.png");
-         FileUtils.copyFile(screenshotFile, destinationFile);
-         Utils util=new Utils();
-         WebElement qrCode=driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
-         util.generateImage(qrCode,destinationFile);
-         WebElement qrCodeElement = driver.findElement(By.id("com.example.qrcode:id/imageView"));
-         File screenshot = driver.getScreenshotAs(OutputType.FILE);
-
-         String content = decodeQRCode(util.generateImage(qrCodeElement, screenshot));
-         Assert.assertEquals(content,"f3ce8d4d-074f-483f-9fd0-45c7947fd40c");
-        //-------Refresh Button------------------
-      /*   mainScreenPage.clickRefreshBtn();
-         String result=mainScreenPage.readAmount();
-         Assert.assertEquals(result,"+"+" $ "+rb.getString("amount"));*/
+        //-----------   Assertion ------------------
+        mainScreenPage.clickRefreshBtn();
+        Thread.sleep(3000);
+        String result = mainScreenPage.readAmount();
+        Assert.assertEquals(result, "+" + " $ " + String.valueOf((Double.parseDouble(rb.getString("amount")) + Double.parseDouble(rb.getString("tip")))) + "0");
 
     }
 
     @Test(priority = 3)
-    public void TC_003_ReceiveMoney_WithoutTipAndRefNo() throws InterruptedException {
-        signInPage= new Sign_inPage(driver);
+    public void TC_003_ReceiveMoney_WithoutTipAndRefNo() throws InterruptedException, IOException, NotFoundException {
+        signInPage = new Sign_inPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
         //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
         mainScreenPage.clickSettingsBtn();
         //----enter security password--------
         signInPage.inputSecurityPassword(rb.getString("Password"));
         signInPage.clickContinueBtn();
-        //----set Tip toggle button -------------
-        SettingsPage settingsPage = new SettingsPage(driver);
-        settingsPage.setReferenceNoToggleBtn();
+        Thread.sleep(3000);
+        //----Disable Reference no and tip -------------
+        settingsPage.clickGeneralSetting();
         settingsPage.setTipAmountToggleBtn();
-
+        settingsPage.clickBackBtn();
+        settingsPage.clickBackBtn();
         //------Complete flow of receive money-----------
         mainScreenPage.clickReceiveMoneyBtn();
-        ReceiveMoneyPage receiveMoneyPage=new ReceiveMoneyPage(driver);
+        ReceiveMoneyPage receiveMoneyPage = new ReceiveMoneyPage(driver);
         receiveMoneyPage.enterAmount(rb.getString("amount"));
         receiveMoneyPage.clickNextBtn();
+        Thread.sleep(3000);
+
+        //---------Read QR code--------------
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot3.png");
+        FileUtils.copyFile(screenshotFile, destinationFile);
+        Utils util = new Utils();
+        Thread.sleep(6000);
+        WebElement qrCode = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        util.generateImage(qrCode, destinationFile);
+        WebElement qrCodeElement = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        File screenshot = driver.getScreenshotAs(OutputType.FILE);
+
+        String content = decodeQRCode(util.generateImage(qrCodeElement, screenshot));
+        System.out.println(content);
+
+        //---------------scan QR code------------
+        try {
+            baseURI = "https://api.g-sandbox.radiumone.io/paynow";
+            Response validatableResponse = RestAssured.given().header("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
+                    .accept(ContentType.JSON)
+                    .queryParam("qr_data", content)
+                    .when()
+                    .post("/notify/mockup").then()
+                    .log().all()
+                    .contentType(ContentType.JSON).extract().response();
+            String responseBody = validatableResponse.getBody().asString();
+            System.out.println(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        receiveMoneyPage.readPopupAmount();
+        Thread.sleep(3000);
         receiveMoneyPage.clickDone_btn();
         Thread.sleep(3000);
 
-        //-------Refresh Button------------------
+        //-----------   Assertion ------------------
         mainScreenPage.clickRefreshBtn();
-        String result=mainScreenPage.readAmount();
-        Assert.assertEquals(result,"+"+" $ "+rb.getString("amount"));
-
-    } @Test(priority = 4)
-    public void TC_004_ReceiveMoney_WithoutTipOnly() throws InterruptedException {
-        signInPage= new Sign_inPage(driver);
-        //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
-        mainScreenPage.clickSettingsBtn();
-        //----enter security password--------
-        signInPage.inputSecurityPassword(rb.getString("Password"));
-        signInPage.clickContinueBtn();
-        //----set Tip toggle button -------------
-        SettingsPage settingsPage = new SettingsPage(driver);
-        settingsPage.setTipAmountToggleBtn();
-
-        //------Complete flow of receive money-----------
-        mainScreenPage.clickReceiveMoneyBtn();
-        ReceiveMoneyPage receiveMoneyPage=new ReceiveMoneyPage(driver);
-        receiveMoneyPage.enterAmount(rb.getString("amount"));
-        receiveMoneyPage.enterReferenceNumber(rb.getString("refNo"));
-        receiveMoneyPage.clickNextBtn();
-        receiveMoneyPage.clickDone_btn();
         Thread.sleep(3000);
+        String result = mainScreenPage.readAmount();
+        Assert.assertEquals(result, "+" + " $ " + (rb.getString("amount")));
 
 
-
-
-        //-------Refresh Button------------------
-        mainScreenPage.clickRefreshBtn();
-        String result=mainScreenPage.readAmount();
-        Assert.assertEquals(result,"+"+" $ "+rb.getString("amount"));
-      //  https://api.g-sandbox.radiumone.io/paynow/notify/mockup?qr_data=00020101021226560009SG.PAYNOW010120213201509555BNN1030100412230914205029520400005303702540450.05802SG5914DEV MERCHANT 56009SINGAPORE621601120870-0000VL663049149
     }
-    @Test(priority = 5)
+
+    @Test(priority = 4)
+    public void TC_004_ReceiveMoney_WithoutTipOnly() throws InterruptedException, IOException, NotFoundException {
+        signInPage = new Sign_inPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
+        //----click on Setting Btn-----
+        mainScreenPage.clickSettingsBtn();
+
+        //----enter security password--------
+        signInPage.inputSecurityPassword(rb.getString("Password"));
+        signInPage.clickContinueBtn();
+
+        //----set Tip toggle button -------------
+        settingsPage.clickGeneralSetting();
+        settingsPage.setReferenceNoToggleBtn();
+        // settingsPage.setTipAmountToggleBtn();
+        settingsPage.clickBackBtn();
+        settingsPage.clickBackBtn();
+        //------Complete flow of receive money-----------
+        mainScreenPage.clickReceiveMoneyBtn();
+        ReceiveMoneyPage receiveMoneyPage = new ReceiveMoneyPage(driver);
+        receiveMoneyPage.enterAmount(rb.getString("amount"));
+        receiveMoneyPage.setRefNoWithoutTip(rb.getString("refNo"));
+        receiveMoneyPage.clickNextBtn();
+        Thread.sleep(3000);
+        //---------Read QR code--------------
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destinationFile = new File("C:\\Users\\Pragati\\Desktop\\RadiumOneGoPlus\\src\\test\\resources\\Screenshots\\screenshot3.png");
+        FileUtils.copyFile(screenshotFile, destinationFile);
+        Utils util = new Utils();
+        Thread.sleep(6000);
+        WebElement qrCode = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        util.generateImage(qrCode, destinationFile);
+        WebElement qrCodeElement = driver.findElement(By.xpath("(//com.horcrux.svg.GroupView)[5]"));
+        File screenshot = driver.getScreenshotAs(OutputType.FILE);
+
+        String content = decodeQRCode(util.generateImage(qrCodeElement, screenshot));
+        System.out.println(content);
+
+        //---------------scan QR code------------
+        try {
+            baseURI = "https://api.g-sandbox.radiumone.io/paynow";
+            Response validatableResponse = RestAssured.given().header("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
+                    .accept(ContentType.JSON)
+                    .queryParam("qr_data", content)
+                    .when()
+                    .post("/notify/mockup").then()
+                    .log().all()
+                    .contentType(ContentType.JSON).extract().response();
+            String responseBody = validatableResponse.getBody().asString();
+            System.out.println(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        receiveMoneyPage.readPopupAmount();
+        Thread.sleep(3000);
+        receiveMoneyPage.clickDone_btn();
+        Thread.sleep(3000);
+
+        //-----------   Assertion ------------------
+        mainScreenPage.clickRefreshBtn();
+        Thread.sleep(3000);
+        String result = mainScreenPage.readAmount();
+        Assert.assertEquals(result, "+" + " $ " + (rb.getString("amount")));
+    }
+    /*@Test(priority = 5)
     public void TC_005_ReceiveMoney_SendERecipt() throws InterruptedException {
         signInPage= new Sign_inPage(driver);
         MainScreenPage mainScreenPage= new MainScreenPage(driver);
@@ -261,8 +366,8 @@ public class ReceiveMoney_Test extends BaseTestClass   {
         String result=mainScreenPage.readAmount();
         Assert.assertEquals(result,"+"+" $ "+rb.getString("amount"));
 
-    }
-   /* @AfterClass
+    }*/
+ /* @AfterClass
     public void teardown(){
         driver.quit();
     }*/

@@ -13,9 +13,10 @@ public class ManageUsers_Test extends BaseTestClass {
     // need to find locators
 
     public AndroidDriver driver;
+
     @BeforeClass
-    public void initialiseTest(){
-        this.driver=initialise();
+    public void initialiseTest() {
+        this.driver = initialise();
     }
 
     @Test
@@ -23,7 +24,7 @@ public class ManageUsers_Test extends BaseTestClass {
         Sign_inPage signInPage = new Sign_inPage(driver);
 
         //check if permission diauloges are displayed or not
-        if(signInPage.permissionpop_upIsDisplayed()) {
+        if (signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
                 signInPage.AcceptThePop_up1();
                 signInPage.AcceptThePop_up1();
@@ -44,7 +45,7 @@ public class ManageUsers_Test extends BaseTestClass {
         Thread.sleep(6000);
 
         //enter verification code
-        String[] a = {"1","2","3","4","5","6"};
+        String[] a = {"1", "2", "3", "4", "5", "6"};
         signInPage.setVerificationCode(a);
         signInPage.clickSubmitBtn();
 
@@ -53,30 +54,34 @@ public class ManageUsers_Test extends BaseTestClass {
         signInPage.setReEnterPasswordField(rb.getString("Password1"));
         signInPage.clickSubmitBtn();
     }
+
     @Test
-    public void TC_001_ManageUsers_AddNewUser(){
-        //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
-        mainScreenPage.clickSettingsBtn();
+    public void TC_001_ManageUsers_AddNewUser() {
 
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
         //-----Add new user------------
-        SettingsPage settingsPage=new SettingsPage(driver);
-        settingsPage.addNewUser("User","device-1","98234564","ab cd");
-
-    }
-    @Test
-    public void TC_002_ManageUsers_EditUser(){
-        //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
         mainScreenPage.clickSettingsBtn();
-
-        //-----Add new user------------
-        SettingsPage settingsPage=new SettingsPage(driver);
-        settingsPage.editUser("Manager","93778444","adf kl");
-
+        settingsPage.addNewUser("User", "device-1", "98234564", "ab cd");
 
     }
 
+    @Test
+    public void TC_002_ManageUsers_EditUser() {
+
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+
+        //-----Add new user------------
+        mainScreenPage.clickSettingsBtn();
+        settingsPage.editUser("Manager", "93778444", "adf kl");
+
+    }
 
 
 }

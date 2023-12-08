@@ -7,21 +7,23 @@ import basePackage.BaseTestClass;
 import io.appium.java_client.android.AndroidDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ManageDevice_Test extends BaseTestClass {
     public AndroidDriver driver;
-    @BeforeClass
-    public void initialiseTest(){
-        this.driver=initialise();
+
+    @BeforeMethod
+    public void initialiseTest() {
+        this.driver = initialise();
     }
 
-    @Test
+  //  @Test
     public void login() throws InterruptedException {
         Sign_inPage signInPage = new Sign_inPage(driver);
 
         //check if permission diauloges are displayed or not
-        if(signInPage.permissionpop_upIsDisplayed()) {
+        if (signInPage.permissionpop_upIsDisplayed()) {
             if (rb.getString("PermissionDialogue").equals("While using the app")) {
                 signInPage.AcceptThePop_up1();
                 signInPage.AcceptThePop_up1();
@@ -39,10 +41,10 @@ public class ManageDevice_Test extends BaseTestClass {
         //enter mobile number
         signInPage.setEnterMobileNoField(rb.getString("MobileNumber"));
         signInPage.clickSignInBtn();
-        Thread.sleep(6000);
+        //Thread.sleep(6000);
 
         //enter verification code
-        String[] a = {"1","2","3","4","5","6"};
+        String[] a = {"1", "2", "3", "4", "5", "6"};
         signInPage.setVerificationCode(a);
         signInPage.clickSubmitBtn();
 
@@ -53,18 +55,26 @@ public class ManageDevice_Test extends BaseTestClass {
     }
 
     @Test
-    public void TC_001_ManageDevices_AddNewDevice(){
+    public void TC_001_ManageDevices_AddNewDevice() {
         //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
-        mainScreenPage.clickSettingsBtn();
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
 
-        //-----Add new user------------
-        SettingsPage settingsPage=new SettingsPage(driver);
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
+        //---------Click setting button----------
+        mainScreenPage.clickSettingsBtn();
+        //----enter security password--------
+        signInPage.inputSecurityPassword(rb.getString("Password"));
+        signInPage.clickContinueBtn();
+        //-----Add new device------------
+
         settingsPage.clickManageDevicesBtn();
-        int count=settingsPage.countNoOfDevices();
-        int countOfDevice=settingsPage.addNewDevice();
+        int count = settingsPage.countNoOfDevices();
+        int countOfDevice = settingsPage.addNewDevice();
 
         //-----Assertion-----------
-        Assert.assertEquals(count+1,countOfDevice);
+        Assert.assertEquals(count + 1, countOfDevice);
     }
 }

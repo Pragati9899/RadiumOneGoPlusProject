@@ -5,19 +5,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import static actiondriver.ActionDriver.JSClick;
-
 public class ReceiveMoneyPage {
     public AndroidDriver driver;
+
     public ReceiveMoneyPage(AndroidDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "(//android.widget.EditText)[1]")
     WebElement amountField;
     @FindBy(xpath = "(//android.widget.EditText)[2]")
     WebElement tipField;
+    @FindBy(xpath = "(//android.widget.EditText)[2]")
+    WebElement refNoWithoutTip;
+
+
     @FindBy(xpath = "(//android.widget.EditText)[3]")
     WebElement referenceNumber;
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Next\"]")
@@ -47,25 +50,49 @@ public class ReceiveMoneyPage {
 //        Thread.sleep(5000);
         return amount;
     }
-   public void enterAmount(String amount){
-       amountField.clear();
 
-       amountField.sendKeys(amount);
-   }
-   public void enterTip(String tip){
+    public void enterAmount(String amount) {
+        amountField.clear();
+
+        amountField.sendKeys(amount);
+    }
+
+    public void enterTip(String tip) {
         tipField.clear();
         tipField.sendKeys(tip);
-   }
-   public void enterReferenceNumber(String refNo){
+    }
+
+    public void enterReferenceNumber(String refNo) {
         referenceNumber.sendKeys(refNo);
-   }
-   public void clickNextBtn(){
+    }
+
+    public void setRefNoWithoutTip(String refNo) {
+        refNoWithoutTip.sendKeys(refNo);
+    }
+
+    public void clickNextBtn() {
         nextBtn.click();
-   }
-   public void clickSendBtn(){
+    }
+
+    public void clickSendBtn() {
         sendBtn.click();
-   }
-   public void clickDone_btn(){
+    }
+
+    public void clickDone_btn() {
         done_Btn.click();
-   }
+
+    }
+
+    //------------payment received popup-------------
+    @FindBy(xpath = "(//android.widget.TextView)[2]")
+    WebElement popupAmount;
+
+    @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Close\"]")
+    WebElement closeBtn;
+
+    public String readPopupAmount() {
+        String amount = popupAmount.getAttribute("text");
+        closeBtn.click();
+        return amount;
+    }
 }

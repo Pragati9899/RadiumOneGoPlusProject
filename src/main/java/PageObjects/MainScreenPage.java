@@ -10,97 +10,126 @@ public class MainScreenPage {
 
 
     public AndroidDriver driver;
+
     public MainScreenPage(AndroidDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
     //-------------Name of user-------------------
     @FindBy(xpath = "(//android.widget.TextView)[1]")
     WebElement nameOfUser;
-    public Boolean checkNameOfUser(){
-        Boolean name =nameOfUser.isDisplayed();
-        return name;
+
+    public Boolean verifyNameOfUser() {
+        return Boolean.valueOf(nameOfUser.getAttribute("displayed"));
     }
 
     //-----------------Name of device-------------
     @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[1]")
     WebElement nameOfDevice;
-    public Boolean checkNameOfDevice(){
-        Boolean deviceName=nameOfDevice.isDisplayed();
-        return deviceName;
+
+    public Boolean verifyNameOfDevice() {
+        return nameOfDevice.isDisplayed();
     }
 
     //----------------Received Amount----------------
     @FindBy(xpath = "(//android.view.ViewGroup)[0](//android.widget.TextView)[2]")
     WebElement receivedAmount;
-    public Boolean checkReceivedAmount(){
-        Boolean totalAmount=receivedAmount.isDisplayed();
+
+    public Boolean verifyReceivedAmount() {
+        Boolean totalAmount = receivedAmount.isDisplayed();
         return totalAmount;
     }
 
     //--------------------Compared percentage to yesterday-------
     @FindBy(xpath = "(//android.view.ViewGroup)[3](//android.widget.TextView)[0]")
     WebElement comparedPerc;
-    public Boolean checkComparedPerc(){
-        Boolean perc=comparedPerc.isDisplayed();
+
+    public Boolean checkComparedPerc() {
+        Boolean perc = comparedPerc.isDisplayed();
         return perc;
     }
 
     //----------------Menu buttons----------------
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"Receive Money\"]")
     WebElement receiveMoneyBtn;
-    public void clickReceiveMoneyBtn(){
+
+    public void clickReceiveMoneyBtn() {
         receiveMoneyBtn.click();
     }
 
     @FindBy(xpath = "  //android.view.ViewGroup[@content-desc=\"Settings\"]")
     WebElement settingsBtn;
-    public void clickSettingsBtn(){
+
+    public void clickSettingsBtn() {
         settingsBtn.click();
     }
+
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"History\"]")
     WebElement historyBtn;
-    public void clickHistoryBtn(){
+
+    public void clickHistoryBtn() {
         historyBtn.click();
     }
 
     //------------------------Refresh button----
     @FindBy(xpath = "(//com.horcrux.svg.PathView)[2]")
     WebElement refreshBtn;
-    public void clickRefreshBtn(){
+
+    public void clickRefreshBtn() {
         refreshBtn.click();
     }
 
     //------------------Help Center----------
     @FindBy(xpath = "(//android.view.ViewGroup)[3]//com.horcrux.svg.PathView")
     WebElement helpCenterBtn;
-    public void clickHelpCenterBtn(){
+
+    public void clickHelpCenterBtn() {
         helpCenterBtn.click();
     }
 
     //-------------kiosk mode--------------------
-     @FindBy(xpath = "(//android.view.ViewGroup)[2]//com.horcrux.svg.PathView")
-     WebElement kioskBtn;
-     public void clickKioskBtn(){
-         kioskBtn.click();
-     }
+    @FindBy(xpath = "(//android.view.ViewGroup)[2]//com.horcrux.svg.PathView")
+    WebElement kioskBtn;
 
-     //-----------------Logout btn----------------
-     @FindBy(xpath = "//android.widget.TextView[@text=\"Logout\"]")
-     WebElement logoutBtn;
-     public void clickLogoutBtn(){
-         logoutBtn.click();
-     }
+    public void clickKioskBtn() {
+        kioskBtn.click();
+    }
 
-     //---------Txn table-------------
+    //-----------------Logout btn----------------
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Logout\"]")
+    WebElement logoutBtn;
+
+    public void clickLogoutBtn() {
+        logoutBtn.click();
+    }
+
+    //---------Txn table-------------
     @FindBy(xpath = "(//android.widget.TextView)[9]")
     WebElement amount;
 
-     public String readAmount(){
-         String result = amount.getAttribute("text");
-         return result;
-     }
+    public String readAmount() {
+        String result = amount.getAttribute("text");
+        return result;
+    }
+
+    @FindBy(xpath = "(//android.widget.TextView)[8]")
+    WebElement paynow_ref;
+
+    public String readPayNowRef() {
+        String result = amount.getAttribute("text");
+        return result;
+    }
+
+    @FindBy(xpath = "(//android.widget.TextView)[10]")
+    WebElement timeOfTxn;
+
+    public String readTimeOfTxn() {
+        String result = amount.getAttribute("text");
+        return result;
+    }
+
+    //-----Security password--------
 
 
 }

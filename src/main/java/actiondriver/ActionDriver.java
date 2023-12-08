@@ -1,4 +1,5 @@
 package actiondriver;
+
 import actiondriver.ActionDriver;
 import basePackage.BaseTestClass;
 import io.appium.java_client.android.AndroidDriver;
@@ -17,41 +18,46 @@ import java.util.Set;
 
 public class ActionDriver extends BaseTestClass {
     public AndroidDriver driver;
+
     public ActionDriver(AndroidDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
+
     public static void scrollDownByEnd(WebDriver driver) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,250)", "");
     }
- public static boolean selectDropdownByForLoop(WebDriver driver, List<WebElement> element, String value){
-     boolean flag = false;
-     try {
-     for(int i=0;i<element.size();i++){
-         String text = (element.get(i).getText());
-         if(text.equals(value)){
-             element.get(i).click();
-         }
-     }}catch (Exception e) {
-             System.out.println("Location not found");
-             flag = false;
-         } finally {
-             if (flag = true) {
-                 System.out.println("successfully Selected value "+element.toString());
-             } else {
-                 System.out.println("unable to enter value "+element.toString());
-             }
-         }
-         return flag;
- }
-    public static int countOptionsOfList(WebDriver driver, List<WebElement> element){
-         int count = 0;
-            for(int i=0;i<element.size();i++){
-                 count = element.size();
+
+    public static boolean selectDropdownByForLoop(WebDriver driver, List<WebElement> element, String value) {
+        boolean flag = false;
+        try {
+            for (int i = 0; i < element.size(); i++) {
+                String text = (element.get(i).getText());
+                if (text.equals(value)) {
+                    element.get(i).click();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Location not found");
+            flag = false;
+        } finally {
+            if (flag = true) {
+                System.out.println("successfully Selected value " + element.toString());
+            } else {
+                System.out.println("unable to enter value " + element.toString());
+            }
+        }
+        return flag;
+    }
+
+    public static int countOptionsOfList(WebDriver driver, List<WebElement> element) {
+        int count = 0;
+        for (int i = 0; i < element.size(); i++) {
+            count = element.size();
         }
         System.out.println(count);
-            return count;
+        return count;
     }
 
     public static boolean type(WebElement ele, String text) {
@@ -66,9 +72,9 @@ public class ActionDriver extends BaseTestClass {
             flag = false;
         } finally {
             if (flag = true) {
-                System.out.println("successfully entered value "+ ele.getAttribute("value"));
+                System.out.println("successfully entered value " + ele.getAttribute("value"));
             } else {
-                System.out.println("unable to enter value "+ ele.getAttribute("value"));
+                System.out.println("unable to enter value " + ele.getAttribute("value"));
             }
         }
         return flag;
@@ -94,14 +100,14 @@ public class ActionDriver extends BaseTestClass {
             ele.isDisplayed();
             flag = true;
         } catch (Exception e) {
-            System.out.println("Location not found: "+ele);
+            System.out.println("Location not found: " + ele);
             flag = false;
         } finally {
             if (flag) {
                 System.out.println("Successfully Found element at");
 
             } else {
-               // System.out.println("Unable to locate element at");
+                // System.out.println("Unable to locate element at");
             }
 
         }
@@ -194,7 +200,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public static boolean selectByValue(WebElement element,String value) {
+    public static boolean selectByValue(WebElement element, String value) {
         boolean flag = false;
         try {
             Select s = new Select(element);
@@ -212,6 +218,7 @@ public class ActionDriver extends BaseTestClass {
             }
         }
     }
+
     public boolean selectByVisibleText(String visibletext, WebElement ele) {
         boolean flag = false;
         try {
@@ -230,7 +237,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public boolean mouseHoverByJavaScript(WebDriver driver,WebElement ele) {
+    public boolean mouseHoverByJavaScript(WebDriver driver, WebElement ele) {
         boolean flag = false;
         try {
             WebElement mo = ele;
@@ -241,8 +248,7 @@ public class ActionDriver extends BaseTestClass {
             js.executeScript(javaScript, mo);
             flag = true;
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         } finally {
             if (flag) {
@@ -261,21 +267,20 @@ public class ActionDriver extends BaseTestClass {
             executor.executeScript("arguments[0].click();", ele);
             // driver.executeAsyncScript("arguments[0].click();", element);
             flag = true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (flag) {
-                System.out.println("Click Action is performed on "+ele.toString());
+                System.out.println("Click Action is performed on " + ele.toString());
             } else if (!flag) {
-                System.out.println("Click Action is not performed on "+ele.toString());
+                System.out.println("Click Action is not performed on " + ele.toString());
             }
         }
         return flag;
     }
 
 
-    public boolean switchToFrameByIndex(WebDriver driver,int index) {
+    public boolean switchToFrameByIndex(WebDriver driver, int index) {
         boolean flag = false;
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
@@ -295,7 +300,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public boolean switchToFrameById(WebDriver driver,String idValue) {
+    public boolean switchToFrameById(WebDriver driver, String idValue) {
         boolean flag = false;
         try {
             driver.switchTo().frame(idValue);
@@ -314,7 +319,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public boolean switchToFrameByName(WebDriver driver,String nameValue) {
+    public boolean switchToFrameByName(WebDriver driver, String nameValue) {
         boolean flag = false;
         try {
             driver.switchTo().frame(nameValue);
@@ -351,7 +356,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public void mouseOverElement(WebDriver driver,WebElement element) {
+    public void mouseOverElement(WebDriver driver, WebElement element) {
         boolean flag = false;
         try {
             new Actions(driver).moveToElement(element).build().perform();
@@ -366,7 +371,6 @@ public class ActionDriver extends BaseTestClass {
             }
         }
     }
-
 
 
     public boolean moveToElement(WebDriver driver, WebElement ele) {
@@ -405,7 +409,7 @@ public class ActionDriver extends BaseTestClass {
         }
     }
 
-    public boolean draggable(WebDriver driver,WebElement source, int x, int y) {
+    public boolean draggable(WebDriver driver, WebElement source, int x, int y) {
         boolean flag = false;
         try {
             new Actions(driver).dragAndDropBy(source, x, y).build().perform();
@@ -419,14 +423,14 @@ public class ActionDriver extends BaseTestClass {
 
         } finally {
             if (flag) {
-                System.out.println("Draggable Action is performed on \""+source+"\"");
-            } else if(!flag) {
-                System.out.println("Draggable action is not performed on \""+source+"\"");
+                System.out.println("Draggable Action is performed on \"" + source + "\"");
+            } else if (!flag) {
+                System.out.println("Draggable action is not performed on \"" + source + "\"");
             }
         }
     }
 
-    public boolean draganddrop(WebDriver driver,WebElement source, WebElement target) {
+    public boolean draganddrop(WebDriver driver, WebElement source, WebElement target) {
         boolean flag = false;
         try {
             new Actions(driver).dragAndDrop(source, target).perform();
@@ -438,14 +442,14 @@ public class ActionDriver extends BaseTestClass {
         } finally {
             if (flag) {
                 System.out.println("DragAndDrop Action is performed");
-            } else if(!flag) {
+            } else if (!flag) {
                 System.out.println("DragAndDrop Action is not performed");
             }
         }
     }
 
 
-    public boolean slider(WebDriver driver,WebElement ele, int x, int y) {
+    public boolean slider(WebDriver driver, WebElement ele, int x, int y) {
         boolean flag = false;
         try {
             // new Actions(driver).dragAndDropBy(dragitem, 400, 1).build()
@@ -467,7 +471,7 @@ public class ActionDriver extends BaseTestClass {
     }
 
 
-    public boolean rightclick(WebDriver driver,WebElement ele) {
+    public boolean rightclick(WebDriver driver, WebElement ele) {
         boolean flag = false;
         try {
             Actions clicker = new Actions(driver);
@@ -488,18 +492,18 @@ public class ActionDriver extends BaseTestClass {
     }
 
 
-    public boolean switchWindowByTitle(WebDriver driver,String windowTitle, int count) {
+    public boolean switchWindowByTitle(WebDriver driver, String windowTitle, int count) {
         boolean flag = false;
         try {
             Set<String> windowList = driver.getWindowHandles();
 
             String[] array = windowList.toArray(new String[0]);
 
-            driver.switchTo().window(array[count-1]);
+            driver.switchTo().window(array[count - 1]);
 
-            if (driver.getTitle().contains(windowTitle)){
+            if (driver.getTitle().contains(windowTitle)) {
                 flag = true;
-            }else{
+            } else {
                 flag = false;
             }
             return flag;
@@ -519,8 +523,8 @@ public class ActionDriver extends BaseTestClass {
         boolean flag = false;
         try {
 
-            Set<String> s=driver.getWindowHandles();
-            Object popup[]=s.toArray();
+            Set<String> s = driver.getWindowHandles();
+            Object popup[] = s.toArray();
             driver.switchTo().window(popup[1].toString());
             flag = true;
             return flag;
@@ -540,8 +544,8 @@ public class ActionDriver extends BaseTestClass {
         boolean flag = false;
         try {
 
-            Set<String> s=driver.getWindowHandles();
-            Object popup[]=s.toArray();
+            Set<String> s = driver.getWindowHandles();
+            Object popup[] = s.toArray();
             driver.switchTo().window(popup[0].toString());
             flag = true;
             return flag;
@@ -576,9 +580,7 @@ public class ActionDriver extends BaseTestClass {
     }
 
 
-
-
-    public boolean launchUrl(WebDriver driver,String url) {
+    public boolean launchUrl(WebDriver driver, String url) {
         boolean flag = false;
         try {
             driver.navigate().to(url);
@@ -588,23 +590,20 @@ public class ActionDriver extends BaseTestClass {
             return false;
         } finally {
             if (flag) {
-                System.out.println("Successfully launched \""+url+"\"");
+                System.out.println("Successfully launched \"" + url + "\"");
             } else {
-                System.out.println("Failed to launch \""+url+"\"");
+                System.out.println("Failed to launch \"" + url + "\"");
             }
         }
     }
 
 
-    public boolean isAlertPresent(WebDriver driver)
-    {
-        try
-        {
+    public boolean isAlertPresent(WebDriver driver) {
+        try {
             driver.switchTo().alert();
             return true;
         }   // try
-        catch (NoAlertPresentException Ex)
-        {
+        catch (NoAlertPresentException Ex) {
             return false;
         }   // catch
     }
@@ -615,18 +614,18 @@ public class ActionDriver extends BaseTestClass {
 
         String text = driver.getTitle();
         if (flag) {
-            System.out.println("Title of the page is: \""+text+"\"");
+            System.out.println("Title of the page is: \"" + text + "\"");
         }
         return text;
     }
 
 
-    public String getCurrentURL(WebDriver driver)  {
+    public String getCurrentURL(WebDriver driver) {
         boolean flag = false;
 
         String text = driver.getCurrentUrl();
         if (flag) {
-            System.out.println("Current URL is: \""+text+"\"");
+            System.out.println("Current URL is: \"" + text + "\"");
         }
         return text;
     }
@@ -642,9 +641,9 @@ public class ActionDriver extends BaseTestClass {
             return false;
         } finally {
             if (flag) {
-                System.out.println("Able to click on \""+locatorName+"\"");
+                System.out.println("Able to click on \"" + locatorName + "\"");
             } else {
-                System.out.println("Click Unable to click on \""+locatorName+"\"");
+                System.out.println("Click Unable to click on \"" + locatorName + "\"");
             }
         }
 
@@ -655,8 +654,8 @@ public class ActionDriver extends BaseTestClass {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeOut));
     }
 
-    public void explicitWait(WebDriver driver, WebElement element, int timeOut ) {
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(timeOut));
+    public void explicitWait(WebDriver driver, WebElement element, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -669,7 +668,6 @@ public class ActionDriver extends BaseTestClass {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd-hhmmss").format(new Date());
         return currentDate;
     }
-
 
 
 }

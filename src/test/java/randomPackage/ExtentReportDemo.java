@@ -24,7 +24,8 @@ public class ExtentReportDemo {
         
         extent.createTest("ScreenCapture")
                 .addScreenCaptureFromPath("extent.png")
-                .pass(MediaEntityBuilder.createScreenCaptureFromPath("extent.png").build());
+                .pass(MediaEntityBuilder.createScreenCaptureFromPath("extent.png")
+                        .build());
         extent.createTest("LogLevels")
                 .info("info")
                 .pass("pass")

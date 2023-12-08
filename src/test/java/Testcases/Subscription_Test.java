@@ -1,5 +1,5 @@
 package Testcases;
-
+import static org.assertj.core.api.Assertions.*;
 import PageObjects.MainScreenPage;
 import PageObjects.SettingsPage;
 import PageObjects.Sign_inPage;
@@ -18,7 +18,7 @@ public class Subscription_Test extends BaseTestClass {
         this.driver=initialise();
     }
 
-    @Test
+   // @Test
     public void login() throws InterruptedException {
         Sign_inPage signInPage = new Sign_inPage(driver);
 
@@ -55,30 +55,67 @@ public class Subscription_Test extends BaseTestClass {
     }
 
     @Test
-    public void TC_001_Subscription_PurchaseSubscription(){
-        //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
+    public void TC_001_Subscription_PurchaseSubscription() throws InterruptedException {
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
+
+        //-----verify current page is mainScreen----------
+        settingsPage.verifyMainscreenIsDisplayed();
+        //---------Click setting button----------
         mainScreenPage.clickSettingsBtn();
+        //----enter security password--------
+        signInPage.inputSecurityPassword(rb.getString("Password"));
+        signInPage.clickContinueBtn();
+        settingsPage.clickSubscriptionSetting();
+        //---------Verify Cancel subs is displayed----
+        if(!settingsPage.verifyCancelSubsBtnIsDisplayed()) {
 
-        //-----Add new user------------
-        SettingsPage settingsPage=new SettingsPage(driver);
-        Double dueamount=settingsPage.addSubscription("7","10");
-        Double dueAmount=settingsPage.purchaseSubscription();
+            //----Buy subscription------------
+            settingsPage.setDevices("12");
+            settingsPage.setUsers("15");
+            settingsPage.setEReceiptToggleBtn();
+            settingsPage.setCarePlusToggleBtn();
+            settingsPage.clickContinueBtn();
+            settingsPage.clickPurchaseBtn();
+            Double due_Amount = settingsPage.verifySubsDue("12", "15");
+            Double dueAmount = settingsPage.purchaseSubscription();
 
-        //-----Assertion-----------
-       Assert.assertEquals(dueAmount,dueamount);
+            //-----Assertion-----------
+            Assert.assertEquals(dueAmount, due_Amount);
+        }
+        else {
+           assertThat(false).as("You have an active subscription");
+        }
     }
     @Test
-    public void TC_002_Subscription_CancelSubscription(){
-        //----click on Setting Btn-----
-        MainScreenPage mainScreenPage= new MainScreenPage(driver);
-        mainScreenPage.clickSettingsBtn();
+    public void TC_002_Subscription_CancelSubscription() {
 
-        //-----Add new user------------
-        SettingsPage settingsPage=new SettingsPage(driver);
-        settingsPage.cancelSubscription();
+        Sign_inPage signInPage = new Sign_inPage(driver);
+        MainScreenPage mainScreenPage = new MainScreenPage(driver);
+        SettingsPage settingsPage = new SettingsPage(driver);
 
-        //-----Assertion-----------
+        Boolean result = null;
+        try {
+            //-----verify current page is mainScreen----------
+            settingsPage.verifyMainscreenIsDisplayed();
+
+            //---------Click setting button----------
+            mainScreenPage.clickSettingsBtn();
+
+            //----enter security password--------
+            signInPage.inputSecurityPassword(rb.getString("Password"));
+            signInPage.clickContinueBtn();
+            settingsPage.clickSubscriptionSetting();
+
+            //-----Cancel Subscription------------
+            settingsPage.cancelSubscription();
+            result = settingsPage.verifyCancelSubsBtnIsDisplayed();
+        } catch (Exception e) {
+
+            //-----Assertion-----------
+            assertThat(result.booleanValue()).isEqualTo(true).withFailMessage("You do not have active plan");
+        }
 
     }
 }

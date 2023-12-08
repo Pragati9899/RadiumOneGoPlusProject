@@ -75,7 +75,7 @@ public class ApiTesting {
 
         @Test
     public void apiTesting(){
-            String qr_data="00020101021226560009SG.PAYNOW010120213201509555BNN1030100412230921221315520400005303702540476.05802SG5914DEV MERCHANT 56009SINGAPORE62160112087Z-000148263041C68";
+            String qr_data="00020101021226560009SG.PAYNOW010120213201509555BNN10301004122310111840355204000053037025405110.05802SG5914DEV MERCHANT 56009SINGAPORE6216011208NJ-0001VZ16304BBE2";
             String encoding3 = Base64.getEncoder().encodeToString(
                     qr_data.getBytes(StandardCharsets.UTF_8));
           /*  // Creating an object of RequestSpecBuilder
@@ -91,17 +91,15 @@ public class ApiTesting {
             RequestSpecification reqSpec = reqBuilder.build();*/
 
             baseURI="https://api.g-sandbox.radiumone.io/paynow";
-            Response validatableResponse = RestAssured.given().header("authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NTY0Mjg2NywiZXhwIjoxNjk2MjQ3NjY3LCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NyJ9.3InLCdoSuA45Gw7IYjpKBAqX1n68tHoSKD9n5ncbezs")
+            String  validatableResponse = RestAssured.given().header("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cm46Zy1zYW5kYm94LmFwaS5yYWRpdW1vbmUuaW8iLCJuYW1lIjoiYXBpX2RldmljZSIsImlhdCI6MTY5NzAxMzM3MiwiZXhwIjoxNjk3NjE4MTcyLCJzY29wZSI6ImFwaTpkZXZpY2UiLCJzdWIiOiI1Y2JlNTIyYjhhODkwNDFkYjVhMTFmZmRhZWViOGRmZTdmNGUxODVjMmM5NTRlNzc0Mjk1MGIxOTM2ODJhZjQ2IiwiZGV2aWNlIjoiMTIzNDU2NzgifQ.-I9THdfOy1zZac6wgyv3fWnUBj3Lj4YKAJmR3zxLJJw")
                     .accept(ContentType.JSON)
-                    .header("Accept-Encoding","gzip, deflate, br")
                     .queryParam("qr_data", qr_data)
                     .when()
                     .post("/notify/mockup").then()
                     .log().all()
-                    .contentType(ContentType.JSON).extract().response();
+                    .contentType(ContentType.JSON).extract().response().asString();
 
-            String responseBody = validatableResponse.getBody().asString();
-            System.out.println(responseBody);
+            System.out.println(validatableResponse);
           /*  JsonPath js = new JsonPath(responseBody);
             String asset = js.getString("x.message");
             System.out.println(asset);*/
