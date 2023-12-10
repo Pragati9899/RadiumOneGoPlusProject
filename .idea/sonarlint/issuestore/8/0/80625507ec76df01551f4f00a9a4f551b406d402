@@ -1,14 +1,0 @@
-
-t
-java:S1104"RMake driver a static final constant or non-public and provide accessors if needed.(Ì±½îûÿÿÿÿ8Ÿô¢¹1
-p
-java:S1104"NMake rb a static final constant or non-public and provide accessors if needed.(¹úŞ÷ùÿÿÿÿ8Ÿô¢¹1
-v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏÈ­8’Ÿô¢¹1
-
-java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(¸½Åµÿÿÿÿÿ8ïŸô¢¹1
-]	java:S125"<This block of commented-out lines of code should be removed.(ÒŠ¢ıùÿÿÿÿ8… ô¢¹1
-X	java:S125"<This block of commented-out lines of code should be removed.(ˆÊæˆ8ˆ ô¢¹1
-^
-java:S10755"ARefactor your code to get this URI from a customizable parameter.(ôÓ¥8¶ ô¢¹1
-S
-java:S1128"6Remove this unused import 'org.openqa.selenium.Point'.(Ğéé8¹ ô¢¹1
