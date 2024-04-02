@@ -44,7 +44,31 @@ String  validatableResponse = RestAssured.given().header("authorization", "Beare
 
     }
 }
+  /* @Test(dataProvider = "getExcelData1", dataProviderClass = DataProvidersExcel.class)
+     public void TC_001_loginWith_RegsisteredNumber(String mobileno) {
 
+         lp.setEnterMobileNoField(mobileno).clickSignInBtn();
+
+         if (Objects.equals(mobileno, "92222222")) {
+             String[] a = {"1", "2", "3", "4", "5", "6"};
+             lp.setVerificationCode(a);
+
+             if (lp.checkSecuritySettingIsDisplayed()) {
+                 lp.setEnterPasswordField(ReadConfigFile.getValue("Password"))
+                         .setReEnterPasswordField(ReadConfigFile.getValue("Password"))
+                         .clickSubmitBtn();
+             }
+             Assertions.assertThat(mp.isUserNameDisplayed()).isTrue();
+
+         } else if (Objects.equals(mobileno, "9887") || Objects.equals(mobileno, "")) {
+             Assertions.assertThat(lp.isErrorMessageDisplayedForInvalidNumber()).isTrue();
+         } else if (Objects.equals(mobileno, "92123456")) {
+             Assertions.assertThat(lp.isErrorMessageDisplayedForUnregisteredNum()).isTrue();
+         } else {
+             Assertions.fail("Login test has been failed");
+         }
+     }
+ */
   /*   ObjectMapper mapper = new ObjectMapper();
    String jsonString = mapper.writeValueAsString(validatableResponse);
         System.out.println(jsonString);*/

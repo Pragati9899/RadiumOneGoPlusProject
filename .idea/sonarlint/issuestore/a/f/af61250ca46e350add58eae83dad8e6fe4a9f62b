@@ -1,0 +1,16 @@
+
+_
+java:S2094"BRemove this empty class, write its code or make it an "interface".(ä¾öê8¹éëøÎ1
+]	java:S125"<This block of commented-out lines of code should be removed.(—‹Úùúÿÿÿÿ8ÁéëøÎ1
+j
+java:S1128"HRemove this unused import 'io.appium.java_client.android.AndroidDriver'.(ç•Ø®ıÿÿÿÿ8ÂéëøÎ1
+\
+java:S1128"@Remove this unused import 'io.appium.java_client.ios.IOSDriver'.(…¡ü8ÃéëøÎ1
+h
+java:S1128"FRemove this unused import 'org.openqa.selenium.remote.CapabilityType'.(–ŒÉİûÿÿÿÿ8ÅéëøÎ1
+h
+java:S1128"KRemove this unused import 'org.openqa.selenium.remote.DesiredCapabilities'.(¦ò©Š8ÅéëøÎ1
+X
+java:S1128";Remove this unused import 'java.net.MalformedURLException'.(ªËŞˆ8ÅéëøÎ1
+K
+java:S1128	")Remove this unused import 'java.net.URL'.(ñìÁ„üÿÿÿÿ8ÆéëøÎ1

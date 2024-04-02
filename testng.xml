@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="RadiumOneGoPlus">
+    <listeners>
+        <!--
+             <listener class-name="cubepay.com.listeners.MethodInterceptor"/>
+        -->
+        <listener class-name="cubepay.com.listeners.ListenerClass"/>
+    </listeners>
     <test thread-count="5" name="RadiumOneGoPlus">
         <classes>
-            <!--<class name="Testcases.Sign_inTest"></class>-->
-           <class name="Testcases.ReceiveMoney_Test"></class>
-            <class name="Testcases.Histroy_Test"></class>
-           <!-- <class name="Testcases.ManageUsers_Test"></class>
-            <class name="Testcases.ManageDevice_Test"></class>
-            <class name="Testcases.Subscription_Test"></class>-->
+            <class name="cubepay.com.testcases.LoginPageTest">
+               <!-- <methods>
+                    <include name="verifyPasswordFieldNotAcceptsAlphabets"/>
+                    <include name="verifyPasswordFieldNotAcceptsSpecialChar"/>
+                    <include name="verifyPasswordFieldAcceptsNumerals"/>
+
+                    <include name="verifyReloginByUsingBackButtonAfterPassingExpiryTimeOfOTP"/>
+
+                </methods>-->
+            </class>
+            <!--  <class name="cubepay.com.testcases.ForgotPasswordTest">
+                  <methods>
+                      <include name="testEnterSecurityPassword"/>
+                  </methods>
+              </class>-->
 
         </classes>
     </test>
