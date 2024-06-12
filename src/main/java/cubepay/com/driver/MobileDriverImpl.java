@@ -22,7 +22,7 @@ public class MobileDriverImpl {
 
        // options.setCapability(, "10BD611L2G000CU");
 
-        return new AndroidDriver(new URL(" http://127.0.0.1:4723/"),options);
+        return new AndroidDriver(new URL("http://127.0.0.1:4723/"),options);
 
          }
 }
